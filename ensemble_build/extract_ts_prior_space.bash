@@ -24,7 +24,7 @@ module load intel-mpi
 module unload python
 module load python/3.10.4
 
-. param.bash
+. ../param.bash
 
 expt="ENS04"
 total_timestep=123
@@ -32,7 +32,7 @@ freq="lf"
 
 # Directories and reference grid
 ref_files="/linkhome/rech/genige01/utw56cf/SNOOPI/Run_Exp3D/Sesam_dh/ENS0029_prior.nc.bas/vct_votemper_0030.nc"
-
+grid_file=
 date
 shopt -s nullglob
 
@@ -56,10 +56,6 @@ for ((imember=first_member; imember<=last_member+1; imember++)); do
 
         # Identify temporally filtered input files
         input_files=( "${source_prior}/block/${tag}filter_${var}${filter}"*"${window_size}lf.nc" )
-        if (( ${#input_files[@]} == 0 )); then
-            echo "No input files found for member ${tag}, variable ${var}" >&2
-            exit 1
-        fi
 
         # Step 1: Apply spatial filtering using MPI
         block_prefix="${indir}/${tag}${expt}_${var}_sp"
@@ -75,11 +71,6 @@ for ((imember=first_member; imember<=last_member+1; imember++)); do
             --output_file "$block_prefix" \
             "${input_files[@]}"
 
-        # Stop if spatial filtering failed
-        if [[ $? -ne 0 ]]; then
-            echo "Spatial filtering failed for member ${tag}, variable ${var}" >&2
-            exit 1
-        fi
 
         # Step 2: Recombine the spatial blocks
         block_files=( "${block_prefix}"*"_${sigma}splf.nc" )
@@ -89,7 +80,7 @@ for ((imember=first_member; imember<=last_member+1; imember++)); do
         python extract_space_recomb.py \
             --variable_name "$var" \
             --variable_dim "$vardim" \
-            --ref_files "$ref_files" \
+            --grid_file "$grid_file" \
             --output_file "$output_file" \
             "${block_files[@]}"
 

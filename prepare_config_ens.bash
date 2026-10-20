@@ -2,7 +2,7 @@
 # =============================================================================
 # Prepare ensemble configurations and leave-one-out prior ensembles.
 #
-# For each selected Nature Run (NR), this script:
+# For each Nature Run (NR), this script:
 #   1. Creates a member-specific parameter file from param.bash.
 #   2. Prepares regional grid and mask files for the configured variables.
 #   3. Extracts the selected NR fields.
@@ -37,7 +37,6 @@
 #   - Extracted NR fields (xt_<var>_.nc).
 #   - Prior ensemble files represented by symbolic links.
 #
-# Run this script from the directory containing param.bash.
 # =============================================================================
 
 # -----------------------------------------------------------------------------

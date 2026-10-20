@@ -21,14 +21,13 @@ for i in $(seq -w 30 30); do
     
     echo "PWD: $(pwd)"
     echo $jobid
-    Reduce the observation
-    --dependency=afterok:$jobid \
+    # Reduce the observation
     jobid2=$(sbatch --parsable \
+		    --dependency=afterok:$jobid \
 		    --job-name=redo_${xt} \
 		    -o logs/redobs_${xt}.o%j \
 		    -e logs/redobs_${xt}.e%j \
 		    prepro_reduce_obs.bash "$PARAM_FILE")
-    sbatch "$PREPARE_SCRIPT" "$PARAM_FILE"
     
     # Extract obs from red1 & red2 ensemble
     jobid3=$(sbatch --parsable \

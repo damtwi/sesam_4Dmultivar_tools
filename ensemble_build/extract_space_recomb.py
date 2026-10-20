@@ -104,7 +104,7 @@ def save_time_block(nc_file, variable_name, variable_dim, t0, t1, block, time_va
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Reconstruct low-frequency field from temporally chunked, spatially filtered NetCDF files.")
-
+    parser.add_argument('--netcdf_files', required=True, help='List of the NetCDF files to recomb.')
     parser.add_argument('--variable_name', required=True, help='Variable name in the NetCDF files.')
     parser.add_argument('--grid_file', type=str, required=True, help='reference file for lat-lon coordinate')
     parser.add_argument('--variable_dim', type=int, required=True, help='Variable dimensionality (2 or 3).')
@@ -121,7 +121,7 @@ if __name__ == "__main__":
             total_time += ds.dimensions['time'].size
     print(total_time)
     # Initialize output file using the first one as reference
-    nc_out = open_output_netcdf(args.output_file, args.grid_files, args.variable_name, args.variable_dim, total_time)
+    nc_out = open_output_netcdf(args.output_file, args.grid_file, args.variable_name, args.variable_dim, total_time)
 
     # Rebuild field
     t_start = 0

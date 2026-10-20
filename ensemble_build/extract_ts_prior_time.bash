@@ -56,7 +56,7 @@ module load python/3.10.4
 # -----------------------------------------------------------------------------
 # Load configuration.
 # -----------------------------------------------------------------------------
-./${sdir}/param.bash
+. ../param.bash
 
 # -----------------------------------------------------------------------------
 # Script-specific configuration.
@@ -110,6 +110,7 @@ for ((i=first_member; i<=last_member; i++)); do
             --output_file "$output_file" \
             "${files[@]}" \
             --filters "$filter"
+
     done
 done
 
