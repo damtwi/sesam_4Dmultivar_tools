@@ -31,7 +31,7 @@ def extract_block(netcdf_file, variable_name, variable_dim):
     if variable_dim==2:
       block = nc_data.variables[variable_name][:, :, :]
     elif variable_dim==3:
-      block = nc_data.variables[variable_name][1:-1, :, :, :]
+      block = nc_data.variables[variable_name][:, :, :, :]
     else:
       raise ValueError("Bad variable dimension in extract_time_series.")
 
@@ -65,15 +65,7 @@ def open_netcdf(ofile, grid_file, variable_name, variable_dim,
 
     # --- Determine new time dimension ---
     time_len_ref = nc_file_ref.dimensions['time'].size
-
-    if variable_dim == 2:
-        # SSH → remove first 2 steps
-        new_time = time_len_ref 
-    elif variable_dim == 3:
-        # 3D fields → remove first step
-        new_time = time_len_ref - 2
-    else:
-        raise ValueError("variable_dim must be 2 or 3")
+    new_time = time_len_ref 
 
     # --- Create dimensions ---
     nc_file.createDimension('time_counter', new_time)
@@ -138,11 +130,11 @@ def save_block(nc_file, variable_name, variable_dim, lon_index_start, lon_index_
     # Write block in file
     if variable_dim==2:
       for lonblock in range(lon_index_end-lon_index_start+1):
-          lon = lon_index_start-1+lonblock
+          lon = lon_index_start+lonblock
           nc_file.variables[variable_name][:, :, lon] = block[:,:,lonblock]
     elif variable_dim==3:
       for lonblock in range(lon_index_end-lon_index_start+1):
-        lon = lon_index_start-1+lonblock
+        lon = lon_index_start+lonblock
         nc_file.variables[variable_name][:, :, :, lon] = block[:,:,:,lonblock]
 
 if __name__ == "__main__":

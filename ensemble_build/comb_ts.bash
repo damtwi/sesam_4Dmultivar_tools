@@ -32,8 +32,8 @@ for ((imember=$mem0; imember<=$mem1+1; imember++)); do
             vardim=3
             window_size=$lanczos_window
         fi
-	ofile="$indir/${tag}${expt}_${var}"
-	python extract_lf_recomb.py --variable_name $var --variable_dim $vardim --lon_index_start 0 --lon_index_end $lon_size --num_blocks $nblocks --grid_file $grid_file --inout_path $ofile --window $lanczos_window --freq $freq
+	ofile="${source_prior}/block/${tag}${expt}_${var}"
+	python extract_lf_recomb.py --variable_name $var --variable_dim $vardim --lon_index_start 0 --lon_index_end $lon_size --num_blocks $nblocks --grid_file $grid_file --inout_path $ofile --window $window_size --freq $freq
     done
 done
 

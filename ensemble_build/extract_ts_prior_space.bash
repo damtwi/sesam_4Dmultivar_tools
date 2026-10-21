@@ -26,15 +26,7 @@ module load python/3.10.4
 
 . ../param.bash
 
-expt="ENS04"
-total_timestep=123
 freq="lf"
-
-# Directories and reference grid
-ref_files="/linkhome/rech/genige01/utw56cf/SNOOPI/Run_Exp3D/Sesam_dh/ENS0029_prior.nc.bas/vct_votemper_0030.nc"
-grid_file=
-date
-shopt -s nullglob
 
 # Process ensemble members
 first_member=$mem0
@@ -56,7 +48,6 @@ for ((imember=first_member; imember<=last_member+1; imember++)); do
 
         # Identify temporally filtered input files
         input_files=( "${source_prior}/block/${tag}filter_${var}${filter}"*"${window_size}lf.nc" )
-
         # Step 1: Apply spatial filtering using MPI
         block_prefix="${indir}/${tag}${expt}_${var}_sp"
         echo "Spatial filtering: ${tag} ${var}"

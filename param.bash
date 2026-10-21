@@ -21,6 +21,7 @@ filter="lanczos"
 lanczos_window="7"
 default_timesteps="6"
 nblocks="10"      # Number of longitude blocks used during filtering
+total_timestep=123
 
 # SSH-specific filtering
 ssh_window="31"
