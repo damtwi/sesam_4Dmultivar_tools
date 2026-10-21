@@ -65,7 +65,7 @@ module load python/3.10.4
 first_member=$((10#${mem0}))
 last_member=$((10#${mem1}))
 
-mkdir -p "$outdir"
+
 
 echo "Input directory: ${source_ensemble}"
 echo "Output directory: ${source_prior}"
@@ -76,7 +76,7 @@ date
 # -----------------------------------------------------------------------------
 # Process each ensemble member.
 # -----------------------------------------------------------------------------
-for ((i=first_member; i<=last_member; i++)); do
+for ((i=first_member; i<=last_member+1; i++)); do
     member_tag=$(printf "%03d" "$i")
     echo "#### Processing ensemble member ${member_tag} ####"
     for var in $varlist; do
@@ -104,7 +104,7 @@ for ((i=first_member; i<=last_member; i++)); do
             --lon_index_start "$imin" \
             --lon_index_end "$imax" \
             --window_size "$window_size" \
-            --num_timesteps "ntim" \
+            --num_timesteps "$ntim" \
             --use_mpi \
             --num_blocks "$nblocks" \
             --output_file "$output_file" \
@@ -115,4 +115,3 @@ for ((i=first_member; i<=last_member; i++)); do
 done
 
 date
-echo "All requested ensemble members have been processed."

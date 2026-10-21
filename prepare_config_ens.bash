@@ -51,7 +51,7 @@ module load nco
 # Check the configuration template and required tools.
 # -----------------------------------------------------------------------------
 param_template="param.bash"
-./param_template
+./${param_template}
 # Convert configuration values to integers.
 prior_size=$((10#${ens_size}))
 first_nr=$((10#${mem0}))

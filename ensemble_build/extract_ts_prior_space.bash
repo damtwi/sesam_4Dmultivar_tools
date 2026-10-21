@@ -43,8 +43,6 @@ shopt -s nullglob
 
 . ../param.bash
 
-freq="lf"
-
 # Process ensemble members
 first_member=$mem0
 last_member=$mem1
@@ -82,7 +80,7 @@ for ((imember=first_member; imember<=last_member+1; imember++)); do
 
         # Step 2: Recombine the spatial blocks
         block_files=( "${block_prefix}"*"_${sigma}splf.nc" )
-        output_file="${wdir}/${ensdir}_prior.nc.bas/vct_${var}_${tag4}_splf.nc"
+        output_file="${source_prior}/vct_${var}_${tag4}_splf.nc"
         echo "Recombining blocks into ${output_file}"
 
         python extract_space_recomb.py \

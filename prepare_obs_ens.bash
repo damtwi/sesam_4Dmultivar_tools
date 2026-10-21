@@ -1,25 +1,25 @@
 #!/bin/bash
 
 # Chemins de base
-PARAM_TEMPLATE="param0-300.bash"
-PREPARE_SCRIPT="prepare_config_ens.bash"
+PARAM_TEMPLATE="param.bash"
 
 # Boucle sur les membres de l'ensemble
-for i in $(seq -w 1 30); do    
+for i in $(seq -w $mem0 $mem1); do    
     xt=$(printf "%02d" $((10#$i)))
     
-    # Copier param.bash en param{xt}.bash
+    # Copy the parameter template
     PARAM_FILE="param${xt}.bash"
     cp "$PARAM_TEMPLATE" "$PARAM_FILE"
-    # Modifier memxt et wdir à l'intérieur du param{xt}.bash
+
+    # Set the current ensemble member
     sed -i "s/^memxt=.*/memxt=\"$xt\"/" "$PARAM_FILE"
-    # wdir="$SCRATCH/SNOOPI/ExpEns" -> ajouter le sous-dossier xt
-    # On suppose que le dossier parent $SCRATCH/SNOOPI/ExpEns existe
+
+    # Create a member-specific working directory
     WDIR_SUB="$SCRATCH/SNOOPI/ExpEns/$xt"
     sed -i "s|^wdir=.*|wdir=\"$WDIR_SUB\"|" "$PARAM_FILE"
     echo "#### member $xt ####"
-
-    # Exécuter prepare_config.bash avec le paramètre modifié
+    
+    # Submit the pseudo-observation preparation job
     sbatch --job-name=obs_xt${xt} \
 	   -o logs/obs_${xt}.o%j \
 	   -e logs/obs_${xt}.e%j \
