@@ -104,7 +104,7 @@ for ((i=first_member; i<=last_member; i++)); do
             --lon_index_start "$imin" \
             --lon_index_end "$imax" \
             --window_size "$window_size" \
-            --num_timesteps "$ntim" \
+            --num_timesteps "ntim" \
             --use_mpi \
             --num_blocks "$nblocks" \
             --output_file "$output_file" \

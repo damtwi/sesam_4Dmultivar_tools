@@ -117,7 +117,7 @@ for nr_index in $(seq "$first_nr" "$last_nr"); do
     # Extract the selected Nature Run fields.
     # -------------------------------------------------------------------------
     for var in $varlist; do
-        src="${wdir}/${source_prior}/vct_${var}_${member_tag}.nc"
+        src="${source_prior}/vct_${var}_${member_tag}.nc"
         nr_output="xt_${var}_.nc"
         cp "$src" "$nr_output"
     done
@@ -135,7 +135,7 @@ for nr_index in $(seq "$first_nr" "$last_nr"); do
     for prior_index in $(seq 1 "$prior_size"); do
         prior_tag=$(printf "%04d" "$prior_index")
         for var in $varlist; do
-            src="${wdir}/${source_prior}/vct_${var}_${prior_tag}.nc"
+            src="${source_prior}/vct_${var}_${prior_tag}.nc"
             dst="${prior_dir}/vct_${var}_${prior_tag}.nc"
             ln -s "$src" "$dst"
         done
@@ -146,7 +146,7 @@ for nr_index in $(seq "$first_nr" "$last_nr"); do
     if [[ "$member_tag" != "$replacement_tag" ]]; then
         for var in $varlist; do
             dst="${prior_dir}/vct_${var}_${member_tag}.nc"
-            src="${wdir}/${source_prior}/vct_${var}_${replacement_tag}.nc"
+            src="${source_prior}/vct_${var}_${replacement_tag}.nc"
             rm -f "$dst"
             ln -s "$src" "$dst"
         done

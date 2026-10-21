@@ -10,6 +10,36 @@
 #SBATCH --hint=nomultithread
 #SBATCH --qos=qos_cpu-dev
 
+# =============================================================================
+# Recombine temporally filtered longitude blocks into full-domain LF/HF files.
+#
+# For each ensemble member, variable and frequency (lf then hf), this script:
+#   1. Locates the per-rank temporally filtered files produced by
+#      extract_ts_prior_time.bash / extract_hf.py in ${source_prior}/block/.
+#   2. Concatenates their longitude blocks back into the full regional domain
+#      via extract_lf_recomb.py, taking the horizontal coordinates from
+#      grid_file and the time axis from the rank-0000 file.
+#   3. Writes one full-domain LF and one full-domain HF NetCDF file
+#      per member and variable.
+#
+# Requirements:
+#   - A param.bash configuration file in the parent directory.
+#   - Must be run from this script's directory (../param.bash and
+#     extract_lf_recomb.py are resolved relatively).
+#   - Per-rank files from Stage 1 for every member in [mem0, mem1] and every
+#     variable in varlist (see input convention below).
+#   - grid_file: regional grid matching the filtered domain
+#   - extract_lf_recomb.py with python/3.10.4 (netCDF4).
+#
+# Input naming convention (one file per Stage-1 MPI rank):
+#   <prefix><rank><filter>_<window><freq>.nc
+#   where <prefix> = ${source_prior}/block/<member_tag><expt>_<variable>
+
+# Output naming convention (rank suffix removed, same directory):
+#   <prefix><filter>_<window><freq>.nc
+# =============================================================================
+
+
 # Required modules
 module load intel-mpi
 module unload python

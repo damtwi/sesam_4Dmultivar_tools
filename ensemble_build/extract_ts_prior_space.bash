@@ -9,16 +9,32 @@
 #SBATCH --qos=qos_cpu-dev
 ##SBATCH --partition=prepost
 
-#===========================================================================
-# Apply spatial filtering to temporally filtered fields, then recombine
-# the resulting longitude blocks into complete NetCDF files.
-# Filtering uses MPI; recombination starts after filtering has completed.
-# Apply spatial filtering to temporally filtered fields, then recombine
-# the resulting blocks into complete NetCDF files.
-# Filtering uses MPI; recombination starts after filtering has completed.
+# =============================================================================
+# Apply the Gaussian spatial filter to the temporally filtered LF fields,
+# then recombine the resulting time blocks into full NetCDF files.
+#
+# For each ensemble member and variable, this script:
+#   1. Selects the recombined LF file produced by comb_ts.bash / extract_lf_recomb.py.
+#   2. Applies extract_spacefiltering.py under MPI (nblocks ranks splitting the
+#      time axis), writing one block per rank.
+#   3. Concatenates the time blocks with extract_space_recomb.py into a
+#      full-domain, full-length filtered field.
+
+# Requirements:
+#   - A param.bash configuration file in the parent directory.
+#   - Recombined LF file from Stage 2 for every member in [mem0, mem1+1] and
+#     every variable in varlist (see input convention below).
+#   - grid_file: regional grid matching the filtered domain
+#   - extract_spacefiltering.py and extract_space_recomb.py with
+#     python/3.10.4 (netCDF4, numpy, scipy) and intel-mpi.
+#   - Number of tasks equal to nblocks (time blocks are distributed over ranks).
+#
+# Output naming convention (rank suffix removed, same directory):
+#   ${source_prior}/vct_<variable>_<member4>_splf.nc
 #
 # Note: Existing intermediate blocks are not automatically removed.
 # Clean up stale blocks before rerunning to avoid mixing old and new outputs.
+# After this script you can clean the ${source_prior}/block file
 #============================================================================
 module load intel-mpi
 module unload python
@@ -48,7 +64,7 @@ for ((imember=first_member; imember<=last_member+1; imember++)); do
         fi
 
         # Identify temporally filtered input files
-        input_files=( "${source_prior}/block/${tag}filter_${var}${filter}"*"${window_size}lf.nc" )
+        input_files=( "${source_prior}/block/${tag}{expt}_${var}lanczos_${window_size}lf.nc" )
         # Step 1: Apply spatial filtering using MPI
         block_prefix="${source_prior}/${tag}${expt}_${var}_sp"
         echo "Spatial filtering: ${tag} ${var}"
