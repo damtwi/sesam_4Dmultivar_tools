@@ -11,8 +11,6 @@ This workflow performs ensemble observational updates using an MCMC sampler in a
 For each Nature Run, this script generates a `param{xt}.bash` configuration file to:
 
 - Define the SESAM configuration (`sesamlist`) and mask file.
-- Define the reference truth used in the twin experiments.
-- Prepare the zero file.
 - Extract the relevant spatial region and time window from the NEMO ensemble.
 - Configure the ensemble with 29 members for the prior and one additional member (`xt`) as the Nature Run.
 
