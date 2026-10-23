@@ -45,7 +45,7 @@ module load intel-mpi
 module unload python
 module load python/3.10.4
 
-. ../param.bash
+. ./param.bash
 
 date
 let lon_size=$imax-$imin
@@ -53,7 +53,7 @@ echo $lon_size
 
 for freq in "lf" "hf"; do
     echo $freq
-    for ((imember=$mem0; imember<=$mem1+1; imember++)); do
+    for ((imember=$mem0; imember<=$mem1; imember++)); do
 	tag=$(printf "%03d" $((10#$imember)))
 	echo $tag
 	for var in $varlist ; do

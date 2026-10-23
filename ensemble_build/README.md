@@ -25,3 +25,8 @@ Applies Gaussian spatial filtering to the low-frequency (LF) fields in two steps
 
 ```text
 ${source_prior}/vct_<var>_<NNNN>_splf.nc
+
+## 3. High-frequency std
+### `prepare_hfstd.bash`
+
+Computes the sample standard deviation of the high-frequency (HF) ensemble across all members. This estimate is used to calculate the observation-error standard deviation associated with the pseudo-observation vector.

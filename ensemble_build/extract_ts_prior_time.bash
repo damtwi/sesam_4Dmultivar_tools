@@ -56,7 +56,7 @@ module load python/3.10.4
 # -----------------------------------------------------------------------------
 # Load configuration.
 # -----------------------------------------------------------------------------
-. ../param.bash
+. ./param.bash
 
 # -----------------------------------------------------------------------------
 # Script-specific configuration.
@@ -69,14 +69,14 @@ last_member=$((10#${mem1}))
 
 echo "Input directory: ${source_ensemble}"
 echo "Output directory: ${source_prior}"
-echo "Ensemble member range: ${first_member}-${last_member}"
+echo "Ensemble member range: ${first_member}-${last_member}+1"
 echo "Variables: ${varlist}"
 date
 
 # -----------------------------------------------------------------------------
 # Process each ensemble member.
 # -----------------------------------------------------------------------------
-for ((i=first_member; i<=last_member+1; i++)); do
+for ((i=first_member; i<=last_member; i++)); do
     member_tag=$(printf "%03d" "$i")
     echo "#### Processing ensemble member ${member_tag} ####"
     for var in $varlist; do

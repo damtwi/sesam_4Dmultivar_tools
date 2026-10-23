@@ -22,7 +22,7 @@
 
 # Requirements:
 #   - A param.bash configuration file in the parent directory.
-#   - Recombined LF file from Stage 2 for every member in [mem0, mem1+1] and
+#   - Recombined LF file from Stage 2 for every member in [mem0, mem1] and
 #     every variable in varlist (see input convention below).
 #   - grid_file: regional grid matching the filtered domain
 #   - extract_spacefiltering.py and extract_space_recomb.py with
@@ -41,13 +41,13 @@ module unload python
 module load python/3.10.4
 shopt -s nullglob
 
-. ../param.bash
+. ./param.bash
 
 # Process ensemble members
 first_member=$mem0
 last_member=$mem1
 
-for ((imember=first_member; imember<=last_member+1; imember++)); do
+for ((imember=first_member; imember<=last_member; imember++)); do
     tag=$(printf "%03d" "$imember")
     tag4=$(printf "%04d" "$imember")
     echo "Processing member ${tag}"
