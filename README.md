@@ -25,8 +25,3 @@ The repository covers the complete chain:
  - **Source Satellite altimetry:** CMEMS along-track L3 product, product ID `SEALEVEL_GLO_PHY_L3_MY_008_062` ([Copernicus Marine Service](https://marine.copernicus.eu/)).
 
 The original observational datasets are not distributed with this repository. Users must download the data from the sources listed above and adapt the paths and filenames in the observation-preparation scripts as needed.
-
-
-### Output data
-
-The output is an ensemble of possible solutions (in 3D+time) for the low-frequency dynamic of the North-East Mediterranean Sea.
